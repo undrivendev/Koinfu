@@ -1,0 +1,28 @@
+version: '3'
+services:
+    koinfu.service:
+        image: registry.gitlab.com/koinfu2/koinfu.core/koinfu.service
+        restart: unless-stopped
+        depends_on:
+            - koinfu.db
+        environment:
+            ASPNETCORE_ENVIRONMENT: Production
+            KOINFU_APIAUTH_OPENEXCHANGERATES_KEY: cd1a36ca346040cb8196d870c4a1be9c
+            KOINFU_APIAUTH_COINBASEPRO_KEY: d2a8530dfb9e0d3ba1f73e1a883f4a64
+            KOINFU_APIAUTH_COINBASEPRO_PASSPHRASE: HFv0GGtsk@Y@Xt;/uQSZ
+            KOINFU_APIAUTH_COINBASEPRO_SECRET: +k+RHskWnYqrrOZDTk7Lep5WMQioSVjI54Hn+0kgIv5Ql2KE6zctqQWamlX46FlolQBSQVgGdVFX+fKu4mLTYw==
+            KOINFU_MAIL_SERVER: smtp.furiouscrypto.com
+            KOINFU_MAIL_PORT: 587
+            KOINFU_MAIL_USERNAME: koinfu@furiouscrypto.com
+            KOINFU_MAIL_PASSWORD: eWBedUt9MT9qR1LOCxMe
+    koinfu.db:
+        command: 'docker-entrypoint.sh postgres -c ''shared_buffers=512MB'' -c ''max_connections=500'''
+        image: postgres
+        restart: unless-stopped
+        volumes:
+            - './init-sql:/docker-entrypoint-initdb.d'
+        environment:
+            POSTGRES_PASSWORD: skVjk23098
+            POSTGRES_DB: koinfu
+        ports:
+            - '5432:5432'
