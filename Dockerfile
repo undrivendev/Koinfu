@@ -8,7 +8,7 @@ WORKDIR /src
 COPY ["src/Mtd.Koinfu.Service/Mtd.Koinfu.Service.csproj", "src/Mtd.Koinfu.Service/"]
 RUN dotnet restore "src/Mtd.Koinfu.Service/Mtd.Koinfu.Service.csproj"
 COPY . .
-WORKDIR "/src/src/Mtd.Koinfu.Service"
+WORKDIR "/src/Mtd.Koinfu.Service"
 RUN dotnet build "Mtd.Koinfu.Service.csproj" -c Release -o /app
 
 FROM build AS publish
