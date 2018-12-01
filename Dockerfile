@@ -3,15 +3,12 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-FROM microsoft/dotnet:2.1-sdk AS build
+FROM microsoft/dotnet:2.1-sdk AS publish
 WORKDIR /src
-COPY ["src/Mtd.Koinfu.Service/Mtd.Koinfu.Service.csproj", "src/Mtd.Koinfu.Service/"]
-RUN dotnet restore "src/Mtd.Koinfu.Service/Mtd.Koinfu.Service.csproj"
+COPY ["src/Mtd.Koinfu.Service/Mtd.Koinfu.Service.csproj", "Mtd.Koinfu.Service/"]
+RUN dotnet restore "Mtd.Koinfu.Service/Mtd.Koinfu.Service.csproj"
 COPY . .
 WORKDIR "/src/Mtd.Koinfu.Service"
-RUN dotnet build "Mtd.Koinfu.Service.csproj" -c Release -o /app
-
-FROM build AS publish
 RUN dotnet publish "Mtd.Koinfu.Service.csproj" -c Release -o /app
 
 FROM base AS final
