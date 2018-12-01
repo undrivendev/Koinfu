@@ -5,11 +5,9 @@ EXPOSE 443
 
 FROM microsoft/dotnet:2.1-sdk AS publish
 WORKDIR /src
-COPY ["src/Mtd.Koinfu.Service/Mtd.Koinfu.Service.csproj", "Mtd.Koinfu.Service/"]
+COPY ["src/*", "/src"]
 RUN dotnet restore "Mtd.Koinfu.Service/Mtd.Koinfu.Service.csproj"
-COPY . .
-WORKDIR "/src/Mtd.Koinfu.Service"
-RUN dotnet publish "Mtd.Koinfu.Service.csproj" -c Release -o /app
+RUN dotnet publish "Mtd.Koinfu.Service/Mtd.Koinfu.Service.csproj" -c Release -o /app
 
 FROM base AS final
 WORKDIR /app
