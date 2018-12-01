@@ -7,10 +7,10 @@ FROM microsoft/dotnet:2.1-sdk AS publish
 WORKDIR /src
 COPY ["src/", "/src/"]
 RUN ls -la
-RUN dotnet restore "Mtd.Koinfu.Service/Mtd.Koinfu.Service.csproj"
-RUN dotnet publish "Mtd.Koinfu.Service/Mtd.Koinfu.Service.csproj" -c Release -o /app
+RUN dotnet restore "Mds.Koinfu.Service/Mds.Koinfu.Service.csproj"
+RUN dotnet publish "Mds.Koinfu.Service/Mds.Koinfu.Service.csproj" -c Release -o /app
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
-ENTRYPOINT ["dotnet", "Mtd.Koinfu.Service.dll"]
+ENTRYPOINT ["dotnet", "Mds.Koinfu.Service.dll"]

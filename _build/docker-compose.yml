@@ -1,7 +1,7 @@
 version: '3'
 services:
     koinfu.service:
-        image: registry.gitlab.com/koinfu/mtd.koinfu.core/mtd.koinfu.service
+        image: registry.gitlab.com/koinfu/mds.koinfu.core/mds.koinfu.service
         restart: unless-stopped
         depends_on:
             - koinfu.db
