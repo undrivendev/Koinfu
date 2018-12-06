@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.Linq;
 using System.Net.Http;
-using Mds.Koinfu.BLL.Services.Logging;
+using Mds.Common.Logging;
 
 namespace Mds.Koinfu.BLL.CoinbasePro
 {

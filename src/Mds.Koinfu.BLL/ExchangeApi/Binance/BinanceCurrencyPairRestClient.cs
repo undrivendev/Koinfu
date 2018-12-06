@@ -5,8 +5,8 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Mds.Koinfu.BLL.Services.Http;
-using Mds.Koinfu.BLL.Services.Logging;
+using Mds.Common.Http;
+using Mds.Common.Logging;
 using Optional;
 
 namespace Mds.Koinfu.BLL.Binance
@@ -33,7 +33,6 @@ namespace Mds.Koinfu.BLL.Binance
         public async Task<Option<Tuple<Exchange, IEnumerable<CurrencyPair>>>> GetCurrencyPairsAsync(CancellationToken token)
         {
             Option<ExchangeInfoResponse> deserialized = (await GetDeserializedDto(token,
-              Services.Http.HttpMethod.Get,
               Helper.CombineUrlsAsStrings(exchange.RestEndpoint,
               "/api/v1/exchangeInfo")));
 

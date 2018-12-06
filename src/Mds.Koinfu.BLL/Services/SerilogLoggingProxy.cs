@@ -1,9 +1,10 @@
 ﻿using System;
+using Mds.Common.Logging;
 using Serilog;
 
-namespace Mds.Koinfu.BLL.Services.Logging
+namespace Mds.Koinfu.BLL
 {
-    public class SerilogLoggingProxy : ILogger
+    public class SerilogLoggingProxy : Common.Logging.ILogger
     {
         private readonly Serilog.ILogger _logger;
 

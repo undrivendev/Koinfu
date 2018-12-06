@@ -1,5 +1,6 @@
-﻿using Mds.Koinfu.BLL.Services.Http;
-using Mds.Koinfu.BLL.Services.Logging;
+﻿
+using Mds.Common.Http;
+using Mds.Common.Logging;
 using Optional;
 using System;
 using System.Threading;
@@ -32,7 +33,7 @@ namespace Mds.Koinfu.BLL.OpenExchangeRates
 
         public async Task<Option<FiatExchangeRate>> GetRateAsync(CancellationToken token)
         {
-            Option<OpenExchangeRatesResponse> deserializedResponse = await GetDeserializedDto(token, Services.Http.HttpMethod.Get, this.endpoint);
+            Option<OpenExchangeRatesResponse> deserializedResponse = await GetDeserializedDto(token, this.endpoint);
             return deserializedResponse.Map(a =>
                 new FiatExchangeRate(this.currencyPair,
                 a.Rates[this.currencyPair.CounterCurrency.Symbol],

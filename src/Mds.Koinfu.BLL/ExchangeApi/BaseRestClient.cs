@@ -1,11 +1,11 @@
-﻿using Mds.Koinfu.BLL.Services.Http;
-using Mds.Koinfu.BLL.Services.Logging;
+﻿using Mds.Common.Base;
+using Mds.Common.Http;
+using Mds.Common.Logging;
+using Mds.Koinfu.BLL.Services;
 using Newtonsoft.Json;
 using Optional;
 using System;
 using System.Collections.Generic;
-using System.Net.Http;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -15,7 +15,7 @@ namespace Mds.Koinfu.BLL
     /// Base class to centralize all the rest calls to the server
     /// </summary>
     /// <typeparam name="T1">type that the respose from the server has to be deserialized to</typeparam>
-    public abstract class BaseRestClient<T> 
+    public abstract class BaseRestClient<T>
         where T : class
     {
         protected readonly ILogger logger;
@@ -48,38 +48,49 @@ namespace Mds.Koinfu.BLL
         /// <returns>The to default headers.</returns>
         protected virtual Dictionary<string, string> AddToDefaultHeaders()
             => new Dictionary<string, string>() { };
+
+
+        protected Task<Option<T>> GetDeserializedDto(CancellationToken token, Uri endpointUrl)
+            => GetDeserializedDto(token, endpointUrl.ToString());
         
 
-        protected async Task<Option<T>> GetDeserializedDto(CancellationToken token, Services.Http.HttpMethod method, Uri endpointUrl, object requestContent = null)
+        protected async Task<Option<T>> GetDeserializedDto(CancellationToken token, string endpointUrl)
         {
-            return await GetDeserializedDto(token, method, endpointUrl.ToString(), requestContent);
-        }
-
-        protected async Task<Option<T>> GetDeserializedDto(CancellationToken token, Services.Http.HttpMethod method, string endpointUrl, object requestContent = null)
-        {
-            HttpResponseMessage response = null;
+            
             var headers = BuildRequestHeaders();
-            switch (method)
+            var result = await _httpclient.GetStringAsync(endpointUrl, headers);
+            if (result.Success)
             {
-                case Services.Http.HttpMethod.Get:
-                    response = await _httpclient.GetAsync(endpointUrl, token, headers);
-                    break;
-                case Services.Http.HttpMethod.Post:
-                    response = await _httpclient.PostAsync(endpointUrl, requestContent, token, headers);
-                    break;
-                default:
-                    break;
+                return JsonConvert.DeserializeObject<T>(result.Data).SomeNotNull();
             }
-
-            if (!response.IsSuccessStatusCode || response == null)
+            else
             {
-                logger.Log(new LogEntry(LoggingEventType.Error, $"Error on tick responsev from {endpointUrl}, response={response}. \r\n"));
-                logger.Log(new LogEntry(LoggingEventType.Debug, $"Response content: {await response.Content.ReadAsStringAsync()}"));
-                return Option.None<T>(); 
-            }
-            var message = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<T>(message).SomeNotNull();
+                return Option.None<T>();
+            }    
+            
         }
+
+        protected Task<Option<T>> PostDto(CancellationToken token, Uri endpointUrl, object requestContent)
+         => PostDto(token, endpointUrl.ToString(), requestContent);
+
+        protected async Task<Option<T>> PostDto(CancellationToken token, string endpointUrl, object requestContent)
+        {
+
+            var headers = BuildRequestHeaders();
+            var result = await _httpclient.PostWithStringResultAsync(endpointUrl, requestContent, headers);
+
+            if (result.Success)
+            {
+                return JsonConvert.DeserializeObject<T>(result.Data).SomeNotNull();
+            }
+            else
+            {
+                return Option.None<T>();
+            }
+        }
+
+
+
 
     }
 }

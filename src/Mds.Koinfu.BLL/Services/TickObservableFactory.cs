@@ -1,13 +1,11 @@
-﻿using Mds.Koinfu.BLL.Bittrex;
+﻿using Mds.Common.Http;
+using Mds.Common.Logging;
+using Mds.Koinfu.BLL.Binance;
+using Mds.Koinfu.BLL.Bitstamp;
+using Mds.Koinfu.BLL.Bittrex;
 using Mds.Koinfu.BLL.CoinbasePro;
 using Mds.Koinfu.BLL.Kraken;
-using Mds.Koinfu.BLL.Binance;
-using Mds.Koinfu.BLL.Services.Http;
-using Mds.Koinfu.BLL.Services.Logging;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using Mds.Koinfu.BLL.Bitstamp;
 
 namespace Mds.Koinfu.BLL
 {
@@ -21,8 +19,8 @@ namespace Mds.Koinfu.BLL
         private readonly IHttpClient _httpClient;
 
         public TickObservableFactory(
-            ILogger logger, 
-            IHttpClient httpClient, 
+            ILogger logger,
+            IHttpClient httpClient,
             CoinbaseProAuthentication auth,
             KrakenCurrencyPairConverter krakenCurrencyPairConverter,
             BinanceCurrencyPairConverter binanceCurrencyPairConverter,
@@ -38,7 +36,7 @@ namespace Mds.Koinfu.BLL
         }
 
         public IObservable<Tick> Create(
-            Exchange exchange, 
+            Exchange exchange,
             CurrencyPair currencyPair,
             int defaultPollIntervalInMs
             )

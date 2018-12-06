@@ -1,4 +1,4 @@
-﻿using Mds.Koinfu.BLL.Services.Logging;
+﻿using Mds.Common.Logging;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;

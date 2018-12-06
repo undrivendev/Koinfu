@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Linq;
 using Optional;
-using Mds.Koinfu.BLL.Services.Http;
-using Mds.Koinfu.BLL.Services.Logging;
+using Mds.Common.Logging;
+using Mds.Common.Http;
 
 namespace Mds.Koinfu.BLL.Kraken
 {
@@ -25,7 +25,6 @@ namespace Mds.Koinfu.BLL.Kraken
         public async Task<Option<Tuple<Exchange, IEnumerable<CurrencyPair>>>> GetCurrencyPairsAsync(CancellationToken token)
         {
             Option<KrakenResponse<CurrencyPairDto>> deserializedResponse = (await GetDeserializedDto(token,
-               Services.Http.HttpMethod.Get,
                Helper.CombineUrlsAsStrings(this.exchange.RestEndpoint, "/public/AssetPairs")));
 
             return deserializedResponse.Map(r =>

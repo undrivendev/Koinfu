@@ -1,9 +1,8 @@
-﻿using Mds.Koinfu.BLL.Services.Http;
-using Mds.Koinfu.BLL.Services.Logging;
+﻿
+using Mds.Common.Http;
+using Mds.Common.Logging;
 using Optional;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -18,9 +17,9 @@ namespace Mds.Koinfu.BLL.Binance
         private readonly CurrencyPair currencyPair;
         private readonly BinanceCurrencyPairConverter converter;
 
-        public BinanceTickRestClient(ILogger logger, 
-            IHttpClient httpClient, 
-            Exchange exchange, 
+        public BinanceTickRestClient(ILogger logger,
+            IHttpClient httpClient,
+            Exchange exchange,
             CurrencyPair currencyPair,
             BinanceCurrencyPairConverter converter)
             : base(logger, httpClient)
@@ -35,18 +34,17 @@ namespace Mds.Koinfu.BLL.Binance
             var externalCurrencyPair = await converter.ConvertToExchangeRepresentation(currencyPair);
 
             Option<TickDto> deserializedResponse = (await GetDeserializedDto(token,
-                Services.Http.HttpMethod.Get,
                 Helper.CombineUrlsAsStrings(this.exchange.RestEndpoint, $"/api/v3/ticker/bookTicker?symbol={externalCurrencyPair}")));
-            
 
-            return  deserializedResponse.Map(r =>
-            new Tick(
-                exchange,
-                currencyPair,
-                r.BidPrice,
-               r.AskPrice,
-                DateTime.UtcNow
-                )
+
+            return deserializedResponse.Map(r =>
+           new Tick(
+               exchange,
+               currencyPair,
+               r.BidPrice,
+              r.AskPrice,
+               DateTime.UtcNow
+               )
             );
         }
     }

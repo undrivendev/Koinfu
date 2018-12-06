@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using MailKit.Net.Smtp;
 using MailKit;
 using MimeKit;
-using Mds.Koinfu.BLL.Services.Logging;
+using Mds.Common.Logging;
 
 namespace Mds.Koinfu.BLL
 {

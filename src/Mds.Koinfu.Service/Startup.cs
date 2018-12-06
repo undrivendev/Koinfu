@@ -1,27 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Mds.Koinfu.BLL.Services.Logging;
+﻿using Mds.Common.Http;
+using Mds.Common.Logging;
+using Mds.Koinfu.BLL;
+using Mds.Koinfu.BLL.Binance;
+using Mds.Koinfu.BLL.Bitstamp;
+using Mds.Koinfu.BLL.Bittrex;
+using Mds.Koinfu.BLL.CoinbasePro;
+using Mds.Koinfu.BLL.Kraken;
+using Mds.Koinfu.BLL.OpenExchangeRates;
+using Mds.Koinfu.DAL;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Mds.Koinfu.BLL.Services.Http;
-using Mds.Koinfu.DAL;
-using Mds.Koinfu.BLL;
-using Mds.Koinfu.BLL.CoinbasePro;
-using Mds.Koinfu.BLL.Kraken;
-using Mds.Koinfu.BLL.Bittrex;
-using Mds.Koinfu.BLL.Binance;
-using Mds.Koinfu.BLL.Bitstamp;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reactive.Linq;
-using Mds.Koinfu.BLL.OpenExchangeRates;
+using System.Threading;
 
 namespace Mds.Koinfu.Service
 {
@@ -42,7 +38,7 @@ namespace Mds.Koinfu.Service
         /// </summary>
         private void StartApplication()
         {
-            BLL.Services.Logging.ILogger logger = new SerilogLoggingProxy(Serilog.Log.Logger);
+            ILogger logger = new SerilogLoggingProxy(Serilog.Log.Logger);
 
             var defaultPollIntervalMs = String.IsNullOrWhiteSpace(Configuration["PollIntervalInMs"]) ? 5000 : Int32.Parse(Configuration["PollIntervalInMs"]);
             string mailrecipent = "lucadv91@gmail.com";
@@ -198,7 +194,7 @@ namespace Mds.Koinfu.Service
             serviceManager.Start(cancellationTokenSource.Token);
 
         }
-		
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {

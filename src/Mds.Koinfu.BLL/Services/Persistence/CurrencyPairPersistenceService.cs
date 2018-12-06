@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Reactive.Subjects;
-using Mds.Koinfu.BLL.Services.Logging;
+using Mds.Common.Logging;
 
 namespace Mds.Koinfu.BLL
 {

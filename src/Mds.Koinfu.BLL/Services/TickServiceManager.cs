@@ -1,8 +1,8 @@
+using Mds.Common.Logging;
 using Mds.Koinfu.BLL;
 using Mds.Koinfu.BLL.Bittrex;
 using Mds.Koinfu.BLL.CoinbasePro;
 using Mds.Koinfu.BLL.Kraken;
-using Mds.Koinfu.BLL.Services.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;

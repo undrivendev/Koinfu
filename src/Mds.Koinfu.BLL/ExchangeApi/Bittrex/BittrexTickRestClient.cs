@@ -1,5 +1,6 @@
-﻿using Mds.Koinfu.BLL.Services.Http;
-using Mds.Koinfu.BLL.Services.Logging;
+﻿
+using Mds.Common.Http;
+using Mds.Common.Logging;
 using Optional;
 using System;
 using System.Net.Http;
@@ -25,8 +26,7 @@ namespace Mds.Koinfu.BLL.Bittrex
 
         public async Task<Option<Tick>> GetTickAsync(CancellationToken token)
         {
-            Option<BittrexResponse<TickDto>> deserializedResponse = (await GetDeserializedDto(token,
-                Services.Http.HttpMethod.Post,  
+            Option<BittrexResponse<TickDto>> deserializedResponse = (await PostDto(token,
                 Helper.CombineUrlsAsStrings(this.exchange.RestEndpoint, "/api/v1.1/public/getticker"),
                 new { market = currencyPair.ToStringReverse("-") })); //ATTENTION: order of base/quote currency is reversed in their stupid api!!!
 

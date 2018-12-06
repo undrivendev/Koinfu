@@ -1,5 +1,5 @@
-﻿using Mds.Koinfu.BLL.OpenExchangeRates;
-using Mds.Koinfu.BLL.Services.Logging;
+﻿using Mds.Common.Logging;
+using Mds.Koinfu.BLL.OpenExchangeRates;
 using System;
 using System.Collections.Generic;
 using System.Reactive.Linq;

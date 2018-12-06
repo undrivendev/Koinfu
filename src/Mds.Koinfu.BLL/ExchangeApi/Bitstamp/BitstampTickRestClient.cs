@@ -1,5 +1,6 @@
-﻿using Mds.Koinfu.BLL.Services.Http;
-using Mds.Koinfu.BLL.Services.Logging;
+﻿
+using Mds.Common.Http;
+using Mds.Common.Logging;
 using Optional;
 using System;
 using System.Threading;
@@ -35,7 +36,6 @@ namespace Mds.Koinfu.BLL.Bitstamp
             var externalCurrencyPair = await currencyPairDtoConverter.ConvertToExchangeRepresentation(currencyPair);
 
             Option<TickDto> deserializedResponse = await GetDeserializedDto(token,
-                Services.Http.HttpMethod.Get,
                 Helper.CombineUrlsAsStrings(this.exchange.RestEndpoint, $"/api/v2/ticker/{externalCurrencyPair}"));
 
             return deserializedResponse.Map(r =>

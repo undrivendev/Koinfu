@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Linq;
 using Optional;
-using Mds.Koinfu.BLL.Services.Http;
-using Mds.Koinfu.BLL.Services.Logging;
+using Mds.Common.Logging;
+using Mds.Common.Http;
 
 namespace Mds.Koinfu.BLL.CoinbasePro
 {
@@ -33,7 +33,6 @@ namespace Mds.Koinfu.BLL.CoinbasePro
         public async Task<Option<Tick>> GetTickAsync(CancellationToken token)
         {
             Option<TickDto> deserializedTick = (await GetDeserializedDto(token,
-                Services.Http.HttpMethod.Get,
                 Helper.CombineUrlsAsStrings(exchange.RestEndpoint,
                 $"/products/{currencyPair}/ticker")));
 

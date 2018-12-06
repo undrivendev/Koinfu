@@ -1,5 +1,6 @@
-﻿using Mds.Koinfu.BLL.Services.Http;
-using Mds.Koinfu.BLL.Services.Logging;
+﻿
+using Mds.Common.Http;
+using Mds.Common.Logging;
 using Optional;
 using System;
 using System.Threading;
@@ -34,8 +35,7 @@ namespace Mds.Koinfu.BLL.Kraken
         {
             var externalCurrencyPair = await currencyPairDtoConverter.ConvertToExchangeRepresentation(currencyPair);
 
-            Option<KrakenResponse<TickDto>> deserializedResponse = (await GetDeserializedDto(token,
-                Services.Http.HttpMethod.Post,
+            Option<KrakenResponse<TickDto>> deserializedResponse = (await PostDto(token,
                 Helper.CombineUrlsAsStrings(this.exchange.RestEndpoint, "/public/Ticker"),
                 new { pair = externalCurrencyPair }));
 
