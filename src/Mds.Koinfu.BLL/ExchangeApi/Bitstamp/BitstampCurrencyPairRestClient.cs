@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Linq;
 using Optional;
-using Mds.Koinfu.BLL.Services;
 using Mds.Common.Logging;
 using Mds.Common.Http;
 

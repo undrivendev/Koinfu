@@ -1,7 +1,5 @@
-﻿using Mds.Common.Base;
-using Mds.Common.Http;
+﻿using Mds.Common.Http;
 using Mds.Common.Logging;
-using Mds.Koinfu.BLL.Services;
 using Newtonsoft.Json;
 using Optional;
 using System;
@@ -52,11 +50,11 @@ namespace Mds.Koinfu.BLL
 
         protected Task<Option<T>> GetDeserializedDto(CancellationToken token, Uri endpointUrl)
             => GetDeserializedDto(token, endpointUrl.ToString());
-        
+
 
         protected async Task<Option<T>> GetDeserializedDto(CancellationToken token, string endpointUrl)
         {
-            
+
             var headers = BuildRequestHeaders();
             var result = await _httpclient.GetStringAsync(endpointUrl, headers);
             if (result.Success)
@@ -66,8 +64,8 @@ namespace Mds.Koinfu.BLL
             else
             {
                 return Option.None<T>();
-            }    
-            
+            }
+
         }
 
         protected Task<Option<T>> PostDto(CancellationToken token, Uri endpointUrl, object requestContent)

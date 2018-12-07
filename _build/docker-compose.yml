@@ -1,10 +1,12 @@
 version: '3'
 services:
     koinfu.service:
-        image: registry.gitlab.com/koinfu/mds.koinfu.core/mds.koinfu.service
+        image: registry.gitlab.com/koinfu/mds.koinfu.core/master:latest
         restart: unless-stopped
         depends_on:
             - koinfu.db
+        volumes:
+            - '/var/log/koinfu:/app/log'
         environment:
             ASPNETCORE_ENVIRONMENT: Production
             KOINFU_APIAUTH_OPENEXCHANGERATES_KEY: cd1a36ca346040cb8196d870c4a1be9c
