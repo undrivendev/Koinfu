@@ -6,8 +6,8 @@ EXPOSE 443
 FROM microsoft/dotnet:2.1-sdk AS publish
 WORKDIR /src
 COPY ["src/", "/src/"]
-RUN ls -la
-RUN dotnet restore "Mds.Koinfu.Service/Mds.Koinfu.Service.csproj"
+COPY ["NuGet.Config", "/src/"]
+RUN dotnet restore "Mds.Koinfu.Service/Mds.Koinfu.Service.csproj" --configfile "./NuGet.Config"
 RUN dotnet publish "Mds.Koinfu.Service/Mds.Koinfu.Service.csproj" -c Release -o /app
 
 FROM base AS final
